@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>io.github.vkeiwon.junit-test-generator</id>
+    <name>JUnit Test Generator</name>
+    <vendor>vkeiwon</vendor>
+
+    <description><![CDATA[
+    Rule-based JUnit test generator. Works fully offline: no network access and no LLM.
+    <ul>
+      <li>Generates a given/when/then test for every non-private method (JUnit 5 or JUnit 4).</li>
+      <li>Collaborator fields become <code>@Mock</code>s; calls made on them become
+          <code>when(...).thenReturn(...)</code> stubs and <code>verify(...)</code> checks.</li>
+      <li>Creates disabled exception-test skeletons for declared <code>throws</code> clauses.</li>
+      <li>Merges only missing tests into an existing test class.</li>
+    </ul>
+    Use <b>Code → Generate… → JUnit 테스트 생성</b> in the editor, or right-click files/packages in the Project view.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                parentId="tools"
+                id="io.github.vkeiwon.junitgen.settings"
+                displayName="JUnit Test Generator"
+                instance="io.github.vkeiwon.junitgen.plugin.settings.JUnitGenConfigurable"/>
+        <notificationGroup id="JUnit Test Generator" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <action id="io.github.vkeiwon.junitgen.GenerateJUnitTest"
+                class="io.github.vkeiwon.junitgen.plugin.GenerateJUnitTestAction"
+                text="JUnit 테스트 생성"
+                description="규칙 기반으로 JUnit 테스트 코드를 생성합니다 (오프라인)">
+            <add-to-group group-id="GenerateGroup" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
